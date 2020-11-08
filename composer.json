@@ -1,0 +1,12 @@
+{
+    "name": "ocozzio/order-automation",
+    "description": "Package and log PageFlex orders and send to designated print vendor via FTP",
+    "require": {
+        "phpmailer/phpmailer": "^6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ocozzio\\": "scr/"
+        }
+    }
+}
