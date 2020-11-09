@@ -1,8 +1,7 @@
 <?php declare(strict_types=1);
 
 namespace Ocozzio\OrderAutomation\Handlers;
-
-use PHPMailer\PHPMailer\PHPMailer;
+namespace PHPMailer\PHPMailer;
 
 
 class Message extends PHPMailer
