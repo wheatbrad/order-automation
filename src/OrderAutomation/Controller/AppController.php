@@ -11,10 +11,25 @@ use Ocozzio\OrderAutomation\Handlers\Message;
 class AppController
 {
 
-    function __construct() {}
+    function __construct() {
+        if (!is_dir(DIR_COMPLETE)) {
+            throw new \RuntimeException('Missing complete directory');
+        }
+        if (!is_dir(DIR_ORDERS)) {
+            throw new \RuntimeException('Missing orders directory');
+        }
+        if (!is_dir(DIR_ZIP)) {
+            throw new \RuntimeException('Missing zip directory');
+        }
+    }
 
 
-    public function foundOrders() : Bool {}
+    public function foundOrders() : Bool {
+        return (
+            Read::checkForNewOrders(DIR_ORDERS) ||
+            Read::checkForOrphanedPackages(DIR_ZIP)
+        );
+    }
 
 
     public function processOrders() : Void {}
