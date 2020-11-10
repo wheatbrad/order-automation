@@ -6,23 +6,21 @@ namespace Ocozzio\OrderAutomation\Handlers;
 class Read
 {
 
-    public static Iterable $orderFiles;
+    public static iterable $orderFiles = [];
 
 
-    public static function checkForNewOrders(String $path) : Bool {
-        $files = [];
-        
+    public static function checkForNewOrders(string $path) : bool {
         foreach(new \DirectoryIterator($path) as $fileInfo) {
             if ($fileInfo->getExtension() === 'xml') {
-                $files[] = $fileInfo->getPathname();
+                self::$orderFiles[] = $fileInfo->getPathname();
             }
         }
 
-        return (bool) $files;
+        return (bool) self::$orderFiles;
     }
 
 
-    public static function checkForOrphanedPackages(String $path) : Bool {
+    public static function checkForOrphanedPackages(string $path) : bool {
         foreach (new \DirectoryIterator($path) as $fileInfo) {
             if ($fileInfo->getExtension() === 'zip') {
                 return true;
@@ -33,9 +31,19 @@ class Read
     }
 
 
-    public static function readNewOrders() : Iterable {}
+    public static function readNewOrders() : iterable {
+        $orders = [];
+
+        foreach (self::$orderFiles as $file) {
+            $orders[] = self::readOrderXML($file);
+        }
+
+        return $orders;
+    }
 
 
-    private static function readOrderXML(String $orderXML) : Iterable {}
-    
+    private static function readOrderXML(string $path) : iterable {
+        return simplexml_load_file($path);
+    }
+
 }
