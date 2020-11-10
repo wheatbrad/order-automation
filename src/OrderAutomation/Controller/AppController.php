@@ -24,7 +24,7 @@ class AppController
     }
 
 
-    public function foundOrders() : Bool {
+    public function foundOrders() : bool {
         return (
             Read::checkForNewOrders(DIR_ORDERS) ||
             Read::checkForOrphanedPackages(DIR_ZIP)
@@ -32,15 +32,17 @@ class AppController
     }
 
 
-    public function processOrders() : Void {}
+    public function processOrders() : void {
+        $orders = Read::readNewOrders();
+    }
 
 
-    public function sendOrders() : Void {}
+    public function sendOrders() : void {}
 
 
-    public function notifyPrintVendors() : Void {}
+    public function notifyPrintVendors() : void {}
 
 
-    public function notifyDevelopers() : Void {}
+    public function notifyDevelopers() : void {}
 
 }
