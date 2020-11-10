@@ -24,17 +24,19 @@ class AppController
     }
 
 
+    protected iterable $foundNewOrders;
+    protected bool $foundOrphanedPackages = false;
+
+
     public function foundOrders() : bool {
-        return (
-            Read::checkForNewOrders(DIR_ORDERS) ||
-            Read::checkForOrphanedPackages(DIR_ZIP)
-        );
+        $this->foundNewOrders = Read::checkForNewOrders(DIR_ORDERS);
+        $this->foundOrphanedPackages = Read::checkForOrphanedPackages(DIR_ZIP);
+
+        return $this->foundNewOrders || $this->foundOrphanedPackages;
     }
 
 
-    public function processOrders() : void {
-        $orders = Read::readNewOrders();
-    }
+    public function processOrders() : void {}
 
 
     public function sendOrders() : void {}
