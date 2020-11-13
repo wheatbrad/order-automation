@@ -36,7 +36,9 @@ class AppController
     }
 
 
-    public function processOrders() : void {}
+    public function processOrders() : void {
+        Process::packageOrders($this->foundNewOrders);
+    }
 
 
     public function sendOrders() : void {}

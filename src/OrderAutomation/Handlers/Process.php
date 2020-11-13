@@ -6,15 +6,19 @@ namespace Ocozzio\OrderAutomation\Handlers;
 class Process
 {
     
-    public static function packageOrders(String $path, Iterable $orders) : Void {}
+    public static function packageOrders(iterable $orders) : void {
+        foreach ($orders as $order) {
+            self::packageOrder($order);
+        }
+    }
 
 
-    private static function packageOrder(String $path, Iterable $order) : Void {}
+    private static function packageOrder(iterable $order) : void {}
 
 
-    private static function createReceipt(Iterable $order) : Iterable {}
+    private static function createReceipt(iterable $order) : iterable {}
 
 
-    private static function removeDirectory(String $path) : Void {}
+    private static function removeDirectory(string $path) : void {}
     
 }
