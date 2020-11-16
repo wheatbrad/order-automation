@@ -11,7 +11,7 @@ use Ocozzio\OrderAutomation\Handlers\Message;
 class AppController
 {
 
-    function __construct() {
+    function __construct(iterable $settings) {
         if (!is_dir(DIR_COMPLETE)) {
             throw new \RuntimeException('Missing complete directory');
         }
@@ -21,9 +21,11 @@ class AppController
         if (!is_dir(DIR_ZIP)) {
             throw new \RuntimeException('Missing zip directory');
         }
+
+        $this->settings = $settings;
     }
 
-
+    protected iterable $settings;
     protected iterable $foundNewOrders;
     protected bool $foundOrphanedPackages = false;
 
