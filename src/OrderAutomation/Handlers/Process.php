@@ -4,6 +4,7 @@ namespace Ocozzio\OrderAutomation\Handlers;
 
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use RuntimeException;
 use SimpleXMLElement;
 use ZipArchive;
 
@@ -18,10 +19,39 @@ class Process
     }
 
 
-    private static function packageOrder(SimpleXMLElement $order) : void {}
+    private static function packageOrder(SimpleXMLElement $order) : void {
+        if ($order->Status === 'Rejected') {
+            unlink(DIR_ORDERS . $order->OrderID.'xml');
+            return;
+        }
 
+        $orderID = $order->OrderID;
 
-    private static function createReceipt(iterable $order) : iterable {}
+        if (count($order->OrderItems)) {
+
+            $zip = new ZipArchive();
+            $zip->open(DIR_ZIP . $orderID . '.zip', ZipArchive::CREATE);
+            $zip->addFile(DIR_ORDERS . $orderID . '.xml', $orderID . '.xml');
+
+            foreach ($order->OrderItems as $item) {
+                $itemID = $item->OrderItem->ExternalID;
+                $file = $itemID . '_00001.pdf';
+
+                if (!$zip->addFile(DIR_ORDERS . $orderID . DIRECTORY_SEPARATOR . $file, $orderID . '/' . $file)) {
+                    throw new RuntimeException('Order <b>'.$orderID.'</b> is missing item <b>'.$itemID.'</b>');
+                }
+            }
+
+            $zip->close();
+            file_put_contents(DIR_ZIP.$order->OrderID.'.receipt', json_encode($order));
+        }
+
+        // Remove from DIR_ORDERS once packaged
+        unlink(DIR_ORDERS . $orderID . '.xml');
+        if (is_dir(DIR_ORDERS . $orderID)) {
+            self::removeDirectory(DIR_ORDERS . $orderID);   
+        }
+    }
 
 
     private static function removeDirectory(string $path) : void {
