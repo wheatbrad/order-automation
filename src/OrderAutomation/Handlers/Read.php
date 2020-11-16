@@ -2,6 +2,8 @@
 
 namespace Ocozzio\OrderAutomation\Handlers;
 
+use DirectoryIterator;
+
 
 class Read
 {
@@ -14,7 +16,7 @@ class Read
      */
     public static function checkForNewOrders(string $path) : iterable {
         $orderFiles = [];
-        foreach(new \DirectoryIterator($path) as $fileInfo) {
+        foreach(new DirectoryIterator($path) as $fileInfo) {
             if ($fileInfo->getExtension() === 'xml') {
                 $orderFiles[] = simplexml_load_file($fileInfo->getPathname());
             }
@@ -32,7 +34,7 @@ class Read
      * @return boolean
      */
     public static function checkForOrphanedPackages(string $path) : bool {
-        foreach (new \DirectoryIterator($path) as $fileInfo) {
+        foreach (new DirectoryIterator($path) as $fileInfo) {
             if ($fileInfo->getExtension() === 'zip') {
                 return true;
             }
