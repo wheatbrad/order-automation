@@ -6,20 +6,20 @@ use Ocozzio\OrderAutomation\Handlers\Read;
 use Ocozzio\OrderAutomation\Handlers\Process;
 use Ocozzio\OrderAutomation\Handlers\Send;
 use Ocozzio\OrderAutomation\Handlers\Message;
-
+use RuntimeException;
 
 class AppController
 {
 
     function __construct(iterable $settings) {
         if (!is_dir(DIR_COMPLETE)) {
-            throw new \RuntimeException('Missing complete directory');
+            throw new RuntimeException('Missing complete directory');
         }
         if (!is_dir(DIR_ORDERS)) {
-            throw new \RuntimeException('Missing orders directory');
+            throw new RuntimeException('Missing orders directory');
         }
         if (!is_dir(DIR_ZIP)) {
-            throw new \RuntimeException('Missing zip directory');
+            throw new RuntimeException('Missing zip directory');
         }
 
         $this->settings = $settings;
