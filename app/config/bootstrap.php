@@ -4,14 +4,13 @@ date_default_timezone_set('America/New_York');
 
 $appDirectory = dirname(__DIR__);
 
-define('DS', DIRECTORY_SEPARATOR);
-define('DIR_COMPLETE', $appDirectory . DS . 'complete');
-define('DIR_ORDERS', $appDirectory . DS . 'orders');
-define('DIR_ZIP', $appDirectory . DS . 'zip');
+define('DIR_COMPLETE', $appDirectory . DIRECTORY_SEPARATOR . 'complete');
+define('DIR_ORDERS', $appDirectory . DIRECTORY_SEPARATOR . 'orders');
+define('DIR_ZIP', $appDirectory . DIRECTORY_SEPARATOR . 'zip');
 
 
-require dirname(__DIR__, 2) . DS . 'vendor' . DS . 'autoload.php';
-$settings = (require __DIR__ . DS . 'settings.php');
+require dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+$settings = (require __DIR__ . DIRECTORY_SEPARATOR . 'settings.php');
 
 
-return new Ocozzio\OrderAutomation\Controller\AppController();
+return new Ocozzio\OrderAutomation\Controller\AppController($settings);
